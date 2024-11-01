@@ -1,0 +1,46 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+업로드 결과
+{% endblock %}
+{% block content %}
+<div class="mt-4"></div>
+    <table id="custom_table" class="row-border" style="width:100%">
+        
+        <h5>전체 업로드 건수는 {{upload_count}} 건 입니다.</h5>
+        <h5>회사코드 : {{company}} 입력연월 :{{year_month}}</h5>
+        <thead>
+        <th>회사</th><th>연월</th><th><small>계정코드</small></th><th>계정명</th><th>실적</th>
+        </thead>
+        <tbody>
+       {% if upload_result %}
+            {% for i in upload_result %}
+        <tr><td>
+                {{i.company}}
+            </td>
+            <td>
+                {{i.yyyymm}}
+            </td>
+            <td>
+                {{i.account}} 
+            </td>
+            <td>
+                {{i.account_name}} 
+            </td>
+            <td>
+                {{i.account_value}} 
+            </td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="4" align="center">업로드 내역이 없습니다.</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+ 
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary mt-3">Confirm and Save</button>
+    </form>
+
+{% endblock %}

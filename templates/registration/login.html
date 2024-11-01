@@ -1,0 +1,107 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="kr">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>삼천리그룹 경영성과 관리</title>
+
+        <link href="{% static 'css/styles_.css' %}" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+            .bgimg {
+                border: 0;
+                padding: 0;
+                background-image: url('{% static 'img/main_bg.jpeg' %}');
+                min-height: 100%;
+                background-position: center;
+                background-size: cover;
+            }
+        </style>
+    </head>
+
+    <body class="bgimg">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div align="center" class="mt-4">
+                                            <img src="https://www.samchully.co.kr/assets/img/header/logo.gif">
+                                    </div>
+                                    <div class="card-header mt-4">
+                                        <h3 class="text-center font-weight-light my-4" id="title">삼천리 경영성과 보고</h3></div>
+                                    <div class="card-body" id="login">
+
+                                    {% if form.errors %}
+                                      <p style="color:red">ID/패스워드가 일치하지 않습니다. 다시 입력하시기 바랍니다.</p>
+                                    {% endif %}
+
+                                    {% if next %}
+                                      {% if user.is_authenticated %}
+                                        <p>로그인 후 사용 바랍니다.</p>
+                                      {% else %}
+                                        <p>LOG IN</p>
+                                      {% endif %}
+                                    {% endif %}
+
+
+                                        <form action="." method="post" >
+                                        {% csrf_token %}
+
+                                            <div class="form-floating mb-3">
+                                                {{ form.username|add_class:"form-control"}}
+                                                <label for="username">id</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                {{ form.password|add_class:"form-control" }}
+                                                <label for="password">Password</label>
+
+                                            </div>
+
+                                            <div align="center">
+                                                <input id="button" type="submit" value="Login" class="btn btn-primary" align="right">
+                                                <input type="hidden" name="next" value="{{ next }}">
+
+                                            </div>
+
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>
+<script>
+var agent = navigator.userAgent.toLowerCase();
+var button_joinus = document.getElementById('button');
+
+if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+
+    document.getElementById('login').style.display="none";
+    document.getElementById('title').innerText = "인터넷 익스플로러는 지원하지 않습니다. 크롬이나 엣지를 이용해 주세요."
+}
+
+</script>
+
+    </body>
+</html>

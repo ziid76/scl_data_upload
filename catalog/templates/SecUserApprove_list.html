@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+인원투입승인
+{% endblock %}
+{% block content %}
+    <table id="custom_table" class="display nowrap text-center" style="width:100%">
+        <thead>
+        <th>신청일자</th><th>투입인원</th><th>투입프로젝트</th><th>진행상태</th><th>상세</th>
+        </thead>
+        <tbody>
+       {% if object_list %}
+            {% for i in object_list %}
+        <tr><td>{{i.user_req.date_of_start}}</td><td>{{i.user_req.lastname}} {{i.user_req.firstname}} {{i.user_req.usergrade}}</td><td>{{i.user_req.project.name}}</td>
+            <td>
+                {% if i.user_req.status == 'N' %} 신규요청
+                {% elif i.user_req.status == 'P' %} 승인진행중
+                {% elif i.user_req.status == 'D' %} 반려
+                {% elif i.user_req.status == 'G' %} 승인완료
+                {% endif%}
+            </td>
+            <td><a href ="{% url 'user_create_detail' i.user_req %}">상세조회</a></td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="5" align="center">승인 대상이 없습니다.</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+인원철수승인
+{% endblock %}
+{% block content %}
+    <table id="custom_table" class="display nowrap text-center" style="width:100%">
+        <thead>
+        <th>신청일자</th><th>투입인원</th><th>투입프로젝트</th><th>진행상태</th><th>상세</th>
+        </thead>
+        <tbody>
+       {% if object_list %}
+            {% for i in object_list %}
+        <tr><td>{{i.retiree.ret_date}}</td><td>{{i.retiree.kor_name}}{{i.retiree.grade}}</td><td>{{i.retiree.project.name}}</td><td>{{i.retiree.company}}</td>
+
+            <td><a href ="{% url 'user' i.retiree.id %}">상세조회</a></td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="5" align="center">승인 대상이 없습니다.</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

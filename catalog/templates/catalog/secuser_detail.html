@@ -1,0 +1,339 @@
+{% extends "base_generic.html" %}
+{% block page_name %}
+인원투입 신청 상세
+{% endblock %}
+{% block content %}
+<div class="mt-4">
+    <table class="table table-condensed text-center mt-4">
+        <th>신청 No : {{object.id}}</th><th>신청일자 : {{object.date_of_start}}</th><th>신청자 : {{object.req_user.profile.kor_name}}</th>
+    </table>
+
+    <h6 class="mt-4"><strong>투입인원 정보</strong></h6>
+
+    <table class="table table-condensed table-striped text-center">
+        <th>이름</th><th>직급</th><th>신청ID</th><th>소속회사</th><th>투입프로젝트</th><th>전화번호</th>
+        <tr><td>{{object.lastname}} {{object.firstname}}</td><td>{{object.usergrade}}</td><td>{{object.userid}}</td></td><td>{{object.Company}}</td><td>{{object.project}}</td><td>{{object.phone}}</td></tr>
+
+    </table>
+
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#qwe"><strong>신청사유</strong></a>
+      </li>
+    </ul>
+    <div class="tabs border">
+      <div id="qwe" class="p-4">
+
+
+          <table>
+              <tr>
+                  <td>{{object.summary|safe}}</td>
+              </tr>
+          </table>
+
+      </div>
+    </div>
+
+    <h6 class="mt-4"><strong>결재정보</strong></h6>
+    <table class="table table-condensed table-striped text-center">
+      <th>차수</th><th>승인자</th><th>승인여부</th><th>승인일시</th><th>Comment</th>
+      {% for i in approve_list %}
+        <tr><td>{{i.seq}}차</td><td>{{i.app_user.profile.kor_name}} {{i.app_user.profile.grade}}</td>
+            {% if i.approved %}
+            <td>{{i.approved}}</td><td><small>{{i.approve_date}}</small></td><td>{{i.comment}}</td>
+            {% else %}
+                {% with user.get_username as p_user %}
+                {% if i.app_user == curr_user and i.stage == 'Y' %}
+                    {% if i.final == 'Y' %}
+                <td colspan="3">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#finalModal"  data-bs-req="{{i.user_req}}" data-bs-seq="{{i.seq}}" >승인/반려</button>
+                </td>
+                    {% else %}
+                <td colspan="3">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#commentModal"  data-bs-req="{{i.user_req}}" data-bs-seq="{{i.seq}}" >승인/반려</button>
+                </td>
+                    {% endif %}
+                {% else %}
+                <td colspan="3"> 미승인 </td>
+                {% endif %}
+                {% endwith %}
+            {% endif %}
+        </tr>
+      {% endfor %}
+    </table>
+
+
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="commentModalLabel">Comment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="createComment" method="post" action="{% url 'user_approve_result' %}">{% csrf_token %}
+              <div class="mb-3">
+                <table class="table table-condensed table-bordered text-center">
+
+                    <tr><td>이름</td><td>{{object.lastname}} {{object.firstname}} {{object.usergrade}}</td></tr>
+                    <tr><td>소속회사</td><td>{{object.Company}}</td></tr>
+                    <tr><td>투입프로젝트</td><td>{{object.project}}</td></tr>
+
+                </table>
+              </div>
+
+
+              <div class="mb-3">
+                <label for="comment" class="col-form-label">Comment:</label>
+                <textarea class="form-control" name="comment" id="comment"></textarea>
+                <input id="req" name = "req" type = "hidden">
+                <input id ="seq" name = "seq" type = "hidden">
+
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+
+                  <a role="button"  id="btn-a" type="submit" class="btn btn-primary" value="approved" data-toggle="modal" >승인</a>
+                  <a role="button"  id="btn-d" type="submit" class="btn btn-primary" value="denied" data-toggle="modal" >반려</a>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="finalModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="finalModalLabel">Comment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="finalComment" method="post" action="{% url 'user_approve_result' %}">{% csrf_token %}
+              <div class="mb-3">
+                <table class="table table-condensed table-bordered text-center">
+
+                    <tr><td>이름</td><td>{{object.lastname}} {{object.firstname}} {{object.usergrade}}</td></tr>
+                    <tr><td>소속회사</td><td>{{object.Company}}</td></tr>
+                    <tr><td>투입프로젝트</td><td>{{object.project}}</td></tr>
+
+                </table>
+              </div>
+
+
+              <div class="mb-3">
+                <label for="comment2" class="col-form-label">Comment:</label>
+                <textarea class="form-control" name="comment" id="comment2"></textarea>
+                <input id="req2" name = "req2" type = "hidden">
+                <input id ="seq2" name = "seq2" type = "hidden">
+
+              </div>
+
+                  <div class="mb-3 row">
+                    <label for="account" class="col-sm-3 col-form-label">S포털 계정</label>
+                    <div class="col-sm-9">
+                      <input id="account" name="account" type="text" class="form-control" placeholder="S포털 계정 *필수">
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label for="ip" class="col-sm-3 col-form-label">IP주소</label>
+                    <div class="col-sm-9">
+                      <input id="ip" name="ip" type="text" class="form-control" placeholder="IP..">
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label for="empID" class="col-sm-3 col-form-label">사번</label>
+                    <div class="col-sm-9">
+                      <input id="empID" name="empID" type="text" class="form-control" placeholder="사번..">
+                    </div>
+                  </div>
+
+              <div class="modal-footer mt-3">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+
+                  <a role="button"  id="btn-b" type="submit" class="btn btn-primary" value="approved" data-toggle="modal" >승인</a>
+                  <a role="button"  id="btn-c" type="submit" class="btn btn-primary" value="denied" data-toggle="modal" >반려</a>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="mt-3"><a href="{% url 'user_create_list' %}" class="btn btn-outline-primary float-end">목록</a></div>
+{% endblock %}
+
+{% block script %}
+
+<script>
+var commentModal = document.getElementById('commentModal')
+commentModal.addEventListener('show.bs.modal', function (event) {
+  var button = event.relatedTarget
+  var req = button.getAttribute('data-bs-req')
+  var seq = button.getAttribute('data-bs-seq')
+  var modalTitle = commentModal.querySelector('.modal-title')
+  var modalBodyInput = commentModal.querySelector('.modal-body textarea')
+  var modalBodyCodeReq = commentModal.querySelector('.modal-body input[name=req]')
+  var modalBodyCodeSeq = commentModal.querySelector('.modal-body input[name=seq]')
+  modalTitle.textContent = '승인/반려'
+  modalBodyCodeReq.value = req
+  modalBodyCodeSeq.value = seq
+})
+
+var finalModal = document.getElementById('finalModal')
+finalModal.addEventListener('show.bs.modal', function (event) {
+  var button = event.relatedTarget
+  var req = button.getAttribute('data-bs-req')
+  var seq = button.getAttribute('data-bs-seq')
+  var modalTitle = finalModal.querySelector('.modal-title')
+  var modalBodyInput = finalModal.querySelector('.modal-body textarea')
+  var modalBodyCodeReq = finalModal.querySelector('.modal-body input[name=req2]')
+  var modalBodyCodeSeq = finalModal.querySelector('.modal-body input[name=seq2]')
+  modalTitle.textContent = '승인/반려'
+  modalBodyCodeReq.value = req
+  modalBodyCodeSeq.value = seq
+})
+
+//부서장 승인
+  $('#btn-a').click(function(e) {
+      e.preventDefault()
+
+      var btnValue = $(this).attr('value');
+      var pid = $(`input#req`).val();
+      var dataBody = {
+          req: $(`input#req`).val(),
+          seq: $(`input#seq`).val(),
+          comment: $(`textarea#comment`).val(),
+          btn: btnValue,
+          account: $(`input#account`).val(),
+          }
+
+      $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $.ajax({
+        url: 'approve_result',
+        method: 'POST',
+        dataType: 'json',
+        data:  JSON.stringify(dataBody),
+        success:function(data) {
+          console.log(data);
+          window.location.href = '/catalog/user_create/'+pid
+        },
+        error:function() {
+          alert('처리실패')
+          window.location.href = '/catalog/user_create/'+ pid
+        }
+      })
+    })
+
+//부서장 반려
+  $('#btn-d').click(function(e) {
+      e.preventDefault()
+
+      var btnValue = $(this).attr('value');
+      var pid = $(`input#req`).val();
+      var dataBody = {
+          req: $(`input#req`).val(),
+          seq: $(`input#seq`).val(),
+          comment: $(`textarea#comment`).val(),
+          btn: btnValue,
+          account: $(`input#account`).val(),
+          }
+
+      $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $.ajax({
+        url: 'approve_result',
+        method: 'POST',
+        dataType: 'json',
+        data:  JSON.stringify(dataBody),
+        success:function(data) {
+          console.log(data);
+          window.location.href = '/catalog/user_create/'+pid
+        },
+        error:function() {
+          window.location.href = '/catalog/user_create/'+ pid
+        }
+      })
+    })
+
+//담당자 승인
+  $('#btn-b').click(function(e) {
+      e.preventDefault()
+
+      var btnValue = $(this).attr('value');
+      var pid = $(`input#req2`).val();
+      var dataBody = {
+          req: $(`input#req2`).val(),
+          seq: $(`input#seq2`).val(),
+          comment: $(`textarea#comment2`).val(),
+          btn: btnValue,
+          account: $(`input#account`).val(),
+          ip: $(`input#ip`).val(),
+          empID: $(`input#empID`).val(),
+          }
+
+      $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $.ajax({
+        url: 'approve_result',
+        method: 'POST',
+        dataType: 'json',
+        data:  JSON.stringify(dataBody),
+        success:function(data) {
+          console.log(data);
+          window.location.href = '/catalog/user_create/'+pid
+        },
+        error:function() {
+          alert('처리실패')
+          window.location.href = '/catalog/user_create/'+ pid
+        }
+      })
+    })
+
+//담당자 반려
+  $('#btn-c').click(function(e) {
+      e.preventDefault()
+
+      var btnValue = $(this).attr('value');
+      var pid = $(`input#req2`).val();
+      var dataBody = {
+          req: $(`input#req2`).val(),
+          seq: $(`input#seq2`).val(),
+          comment: $(`textarea#comment2`).val(),
+          btn: btnValue,
+          account: $(`input#account`).val(),
+          }
+
+      $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $.ajax({
+        url: 'approve_result',
+        method: 'POST',
+        dataType: 'json',
+        data:  JSON.stringify(dataBody),
+        success:function(data) {
+          console.log(data);
+          window.location.href = '/catalog/user_create/'+pid
+        },
+        error:function() {
+          window.location.href = '/catalog/user_create/'+ pid
+        }
+      })
+    })
+</script>
+
+
+
+{% endblock %}

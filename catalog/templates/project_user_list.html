@@ -1,0 +1,51 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+{{pjt_.name}} 인원 현황
+{% endblock %}
+
+{% block content %}
+<div class="mt-4"></div>
+    <table id="scroll_table" class="display nowrap text-center" style="width:100%">
+        <thead>
+            <th>성명</th><th>직책</th><th>투입승인일자</th><th>소속회사</th><th>상태</th><th>비밀유지서약</th><th>정보보호서약</th><th>개인정보이용동의</th>
+            <th>VDI</th><th>서버접근</th><th>DB접근</th><th>NAS</th><th>철수서약</th><th>파기확인서</th>
+        </thead>
+        <tbody>
+       {% if object %}
+            {% for i in object %}
+       <tr><td><a href="{% url 'user' i.id %}">{{i.kor_name}}</a></td><td>{{i.grade}}</td>
+           <td><small>{{i.gen_date}}</small></td><td>{{i.company}}</td>
+            <td>
+                {% if i.status == 'N' %} 투입진행중
+                {% elif i.status == 'P' %}
+                    {% if i.doc_c == 'Y' and i.doc_d == 'Y' %}
+                    <a type="button" class="btn small btn-outline-primary" href="{% url 'user_dismiss' i.id %}">철수신청</a>
+                    {% else %} 투입중
+                    {% endif %}
+                {% elif i.status == 'D' %} 철수완료({{i.del_date}})
+                {% elif i.status == 'O' %} 철수진행중
+                {% endif%}
+            </td>
+            <td>{{i.doc_v}}</td><td>{{i.doc_s}}</td><td>{{i.doc_p}}</td><td>{{i.tool_v}} </td><td>{{i.tool_s}}</td><td>{{i.tool_d}}</td><td>{{i.tool_a}}</td><td>{{i.doc_c}}</td><td>{{i.doc_d}}</td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="14" align="center">내역이 없습니다.</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+<div class="mt-3"><input type="button" class="btn btn-outline-primary float-end" value="뒤로" onclick="back()"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function() {
+    $('#scroll_table').DataTable( {
+        "scrollX": true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/ko.json"
+        }
+    } );
+} );
+</script>
+{% endblock %}

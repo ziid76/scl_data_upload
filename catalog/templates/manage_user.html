@@ -1,0 +1,50 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+인원 현황
+{% endblock %}
+{% block content %}
+
+<div class="mt-4">    </div>
+    <table id="scroll_table" class="display nowrap text-center" style="width:100%">
+        <thead>
+            <th>성명</th><th>직책</th><th>투입프로젝트</th><th>투입일자</th><th>소속회사</th><th>상태</th><th>비밀유지서약</th><th>정보보호서약</th><th>VDI</th><th>서버접근</th><th>DB접근</th>
+        </thead>
+        <tbody>
+       {% if object %}
+            {% for i in object %}
+        <tr>
+            <td><a href="{% url 'user' i.user.profile.id %}">{{i.kor_name}}</a></td><td>{{i.grade}}</td>
+            <td>{{i.project}}</td>
+            <td><small>{{i.gen_date}}</small></td>
+            <td>{{i.company}}</td>
+            <td>
+                {% if i.status == 'N' %} 투입진행중
+                {% elif i.status == 'P' %} 투입
+                {% elif i.status == 'D' %} 철수완료({{i.del_date}})
+                {% elif i.status == 'O' %} 철수진행중
+                {% endif%}
+            </td>
+            <td>{{i.doc_v}}</td><td>{{i.doc_s}}</td><td>{{i.tool_v}} </td><td>{{i.tool_s}}</td><td>{{i.tool_d}}</td>
+            {% endfor %}
+        </tr>
+        {% else %}
+        <tr><td colspan="10" align="center">내역이 없습니다.</td>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function() {
+    $('#scroll_table').DataTable( {
+        "scrollX": true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/ko.json"
+        }
+    } );
+} );
+</script>
+{% endblock %}

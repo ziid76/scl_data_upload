@@ -1,0 +1,51 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+
+
+{% block css %}
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/css/datepicker.min.css'>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="input-group mb-4 col-3">
+  <i class="bi bi-calendar-date input-group-text"></i>
+  <input type="text" class="datepicker_input form-control" placeholder="Date input 3 placeholder" required aria-label="Date input 3 (using aria-label)">
+</div>
+<div class="form-floating input-group mb-4">
+  <i class="fas fa-calendar input-group-text"></i>
+  <input type="text" id="datepicker2" class="datepicker_input form-control" placeholder="날짜를 선택하세요" required>
+  <label for="datepicker2">Date input label 2</label>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src='https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker-full.min.js'></script>
+<script type='text/javascript'>
+const getDatePickerTitle = elem => {
+  // From the label or the aria-label
+  const label = elem.nextElementSibling;
+  let titleText = '';
+  if (label && label.tagName === 'LABEL') {
+    titleText = label.textContent;
+  } else {
+    titleText = elem.getAttribute('aria-label') || '';
+  }
+  return titleText;
+}
+
+const elems = document.querySelectorAll('.datepicker_input');
+for (const elem of elems) {
+  const datepicker = new Datepicker(elem, {
+    'format': 'yyyy-mm-dd',
+    'language': 'kr',
+    title: getDatePickerTitle(elem)
+  });
+}
+</script>
+
+{% endblock %}

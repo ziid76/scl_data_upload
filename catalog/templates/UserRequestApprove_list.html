@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+보안요청 승인
+{% endblock %}
+{% block content %}
+    <table id="custom_table" class="display nowrap text-center" style="width:100%">
+        <thead>
+        <th>신청일자</th><th>신청자</th><th>신청내용</th><th>진행상태</th><th>상세</th>
+        </thead>
+        <tbody>
+       {% if object_list %}
+            {% for i in object_list %}
+        <tr><td>{{i.req_id.date_of_req}}</td><td>{{i.req_id.req_user.profile.kor_name}} {{i.req_id.req_user.profile.grade}}</td>
+            <td>{{i.req_id.type.type_name}}</td>
+            <td>
+                {% if i.req_id.status == 'N' %} 신규요청
+                {% elif i.req_id.status == 'P' %} 승인진행중
+                {% elif i.req_id.status == 'D' %} 반려
+                {% elif i.req_id.status == 'G' %} 승인완료
+                {% else %} {{i.req_id.status}}
+                {% endif%}
+            </td>
+            <td><a href ="{% url 'request_detail' i.req_id.id %}">요청번호({{i.req_id.id}})</a></td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="5" align="center">승인 대상이 없습니다.</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

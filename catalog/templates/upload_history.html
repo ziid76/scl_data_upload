@@ -1,0 +1,44 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+업로드 이력 조회
+{% endblock %}
+{% block content %}
+<div class="mt-4"></div>
+    <table id="custom_table" class="display nowrap text-center" style="width:100%">
+        
+        <thead>
+            <th>차수</th><th>회사(연월)</th><th>차수</th><th><small>건수</small></th><th>사용자</th><th>업로드 일시</th>
+        </thead>
+        <tbody>
+       {% if upload_history %}
+            {% for i in upload_history %}
+        <tr>
+            <td>
+                {{i.serial_number}} 
+            </td>
+            <td>
+                {{i.company}}({{i.year_month}})
+            </td>
+            <td>
+                <a href ="{% url 'upload_detail' i.serial_number %}"> 내역조회 </a>
+            </td>
+
+            <td>
+                {{i.num_record}} 
+            </td>
+            <td>
+                {{i.uploaded_by.profile.kor_name}}
+            </td>
+            <td>
+                {{i.uploaded_at}} 
+            </td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="4" align="center">업로드 내역이 없습니다.</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+정보보안 허용 신청
+{% endblock %}
+{% block content %}
+    <table class="table table-hover text-center ">
+        <th class="table-secondary">신청유형</th><th class="table-secondary">설명</th><th class="table-secondary">신청</th>
+
+       {% if use_ %}
+            {% for i in use_ %}
+       <tr>
+           <td class="text-start"><b>&nbsp;&nbsp;&nbsp;&nbsp;{{i.name}}</b></td>
+           <td class="text-start"><small>{{i.desc|safe}}</small></td>
+           <td><a href ="{% url 'request_create' i.id %}">신청하기</a></td>
+        </tr>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="4" align="center">신청 내역이 없습니다.</td></tr>
+        {% endif %}
+    </table>
+
+{% endblock %}

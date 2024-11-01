@@ -1,0 +1,95 @@
+{% extends "base_generic.html" %}
+{% load widget_tweaks %}
+
+{% block page_name %}
+인원투입 신청
+{% endblock %}
+
+{% block content %}
+
+                                <div class="card  border-0 rounded-lg mt-4">
+                                    <div class="card-body">
+                                        <form method="POST" class="form-floating">{% csrf_token %}
+                                            <div class="row mb-3">
+
+                                                <div class="col-md-3">
+                                                    <div class="form-floating">
+                                                        {{ form.lastname|add_class:"form-control"}}
+                                                        <label for="lastname">성</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-floating">
+                                                        {{ form.firstname|add_class:"form-control"}}
+                                                        <label for="firstname">이름</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-floating">
+                                                        {{ form.usergrade|add_class:"form-control"}}
+                                                        <label for="usergrade">직급</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-floating">
+                                                        {{ form.phone|add_class:"form-control"}}
+                                                        <label for="phone">전화번호</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        {{ form.Company|add_class:"form-select"}}
+                                                        <label>소속회사</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        {{ form.project|add_class:"form-select"|append_attr:"placeholder:선택"}}
+                                                        <label>투입 프로젝트</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-floating mb-3 mb-md-0 focus">
+                                                        {{ form.userid|add_class:"form-control"}}
+                                                        <label for="userID">신청 ID</label>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3">
+                                                    {{ form.summary|add_class:"form-control"}}
+                                                </div>
+                                            </div>
+
+
+                                            <div class="mt-4 mb-0">
+                                                <div class="d-grid"><button type="submit" class="btn btn-primary">인원투입신청</button></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-center py-3">
+                                        <div class="small">신청하신 내용은 처리완료 후 메일로 안내됩니다.</div>
+                                    </div>
+                                </div>
+
+{% endblock %}
+{% block script %}
+<script>
+$(document).ready(function() {
+        $('#id_summary').summernote({ height: 400,                 // 에디터 높이
+                        minHeight: null,             // 최소 높이
+                        maxHeight: null,             // 최대 높이
+                        focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+                        lang: "ko-KR",                    // 한글 설정
+                        placeholder: '인원투입시 요청사항을 작성해 주세요.'    //placeholder 설정
+
+
+
+                        });
+                        $('p').css('margin-bottom','0')
+    });
+</script>
+
+{% endblock %}

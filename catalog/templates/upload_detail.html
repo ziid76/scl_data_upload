@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+업로드 내용
+{% endblock %}
+{% block content %}
+<div class="mt-4"></div>
+    <table id="custom_table" class=" row-border" style="width:100%">
+        
+        <thead>
+        <th>회사</th><th>연월</th><th><small>계정코드</small></th><th>계정명</th><th>실적</th>
+        </thead>
+        <tbody>
+       {% if upload_data %}
+            {% for i in upload_data %}
+        <tr><td>
+                {{i.company}}
+            </td>
+            <td>
+                {{i.yyyymm}}
+            </td>
+            <td>
+                {{i.account}} 
+            </td>
+            <td>
+                {{i.account_name}} 
+            </td>
+            <td>
+                {{i.account_value}} 
+            </td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="4" align="center">업로드 내역이 없습니다.</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <div class="mt-3"><input type="button" class="btn btn-outline-primary float-end" value="뒤로" onclick="back()"></div>
+ 
+{% endblock %}

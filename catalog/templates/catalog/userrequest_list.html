@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+허용 신청 현황
+{% endblock %}
+{% block content %}
+
+    <table class="table table-hover text-center ">
+        <th>신청일자</th><th>투입인원</th><th>투입프로젝트</th><th>진행상태</th><th></th>
+
+       {% if object_list %}
+            {% for i in object_list %}
+        <tr><td>{{i.date_of_req}}</td><td>{{i.req_user.profile.kor_name}}</td><td>{{i.type}}</td>
+            <td>
+                {% if i.status == 'N' %} 신규요청
+                {% elif i.status == 'P' %} 승인진행중
+                {% elif i.status == 'D' %} 반려
+                {% elif i.status == 'G' %} 승인완료
+                {% endif%}
+            </td>
+            <td><a href ="{% url 'request_detail' i.id %}">상세조회</a></td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="4" align="center">신청 내역이 없습니다.</td></tr>
+        {% endif %}
+    </table>
+
+{% endblock %}

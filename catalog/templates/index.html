@@ -1,0 +1,86 @@
+{% extends "base_generic.html" %}
+
+
+{% block page_name %}
+- 그룹 성과 관리 -
+{% endblock %}
+
+
+{% block content %}
+
+
+  <div class="container px-4 py-5" id="hanging-icons">
+    <h4 class="pb-2 border-bottom"><small><b>실적 업로드 현황</b></small></h4>
+
+      <div>
+    <table class="table table-hover text-center ">
+        <th>회사명</th>
+        <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
+        <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
+        {% if upload_result %}
+        
+          {% for data in upload_result %}
+          <tr>
+            {% for val in data %}
+              <td>
+                {% if val == True %}                
+                <i class="fa fa-check-circle text-danger" aria-hidden="true"></i>
+                {% elif  val == False %}
+                X
+                {% else %}
+                {{val}}
+                {% endif %}
+
+
+
+
+              </td>      
+            {% endfor %}   
+          </tr>      
+          {% endfor %}          
+        {% else %}
+           <tr><td colspan="13" align="center">내역이 없습니다.</td></tr>       
+        {% endif %}
+    </table>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+var commentModal = document.getElementById('commentModal')
+commentModal.addEventListener('show.bs.modal', function (event) {
+  var button = event.relatedTarget
+  var pid = button.getAttribute('data-bs-id')
+  var modalTitle = commentModal.querySelector('.modal-title')
+
+  modalTitle.textContent = '철수신청'
+})
+
+$('#createComment').submit((event) => {
+  event.preventDefault()
+
+  var pid = $(`input#profile`).val();
+  var dataBody = {
+      }
+
+  $.ajaxSetup({
+    headers: { "X-CSRFToken": '{{csrf_token}}' }
+  });
+
+  $.ajax({
+    url: '/catalog/user/retire/'+pid,
+    method: 'GET',
+    success:function(data) {
+      window.location.href = '/catalog/user/'+pid
+    },
+    error:function() {
+      alert('Process Fail');
+      window.location.href = '/catalog/'
+    }
+  })
+
+});
+</script>
+{% endblock %}

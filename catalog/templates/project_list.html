@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+프로젝트 현황
+{% endblock %}
+{% block content %}
+<div class="mt-4"></div>
+    <table id="custom_table" class="display nowrap text-center" style="width:100%">
+        <thead>
+        <th>프로젝트</th><th>인원현황<br><small>(현재/철수/총투입)</small></th><th>프로젝트 보안담당자</th><th>프로젝트 승인자</th><th>투입인원조회</th>
+        </thead>
+        <tbody>
+       {% if project_list %}
+            {% for i in project_list %}
+        <tr><td>{{i.name}}</td>
+            <td>
+                {{i.in_}}/{{i.out_}}/{{i.total_}}
+            </td>
+            <td>{{i.manager.profile.kor_name}} {{i.manager.profile.grade}}</td><td>{{i.owner.profile.kor_name}} {{i.owner.profile.grade}}</td>
+
+
+            <td><a href ="{% url 'project_user_list' i.id %}">조회</a>
+
+            </td>
+            {% endfor %}
+        {% else %}
+        <tr><td colspan="4" align="center">신청 내역이 없습니다.</td></tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

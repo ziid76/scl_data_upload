@@ -1,0 +1,9 @@
+db.sqlite3
+.DS_Store
+.idea
+__pycache__
+source-2022.zip
+ssh-key-2023-03-21.key
+ssh-key-2023-03-21.key.pub
+ssh-key-2023-11-13.key
+ssh-key-2023-11-13.key.pub

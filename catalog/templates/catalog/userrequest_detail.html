@@ -1,0 +1,400 @@
+{% extends "base_generic.html" %}
+
+{% block page_name %}
+{{object.type.type_name}}
+{% endblock %}
+{% block content %}
+<div class="mt-4"></div>
+    <table class="table table-condensed">
+        <th>신청 No : {{object.id}}</th><th>신청일자 : {{object.date_of_req}}</th>
+    </table>
+
+    <h6 class="mt-4"><strong>신청자 정보</strong></h6>
+
+    <table class="table table-condensed table-bordered text-center">
+
+        <tr><td>이름</td><td>{{object.req_user.profile.kor_name}} {{object.req_user.profile.grade}}</td><td>ID</td><td>{{object.req_user.profile.user.username}}</td></tr>
+        <tr><td>사번</td><td>{{object.req_user.profile.empID}}</td><td>전화번호</td><td>{{object.req_user.profile.phone}}</td></tr>
+        <tr><td>소속회사</td><td>{{object.req_user.profile.company}}</td><td>투입프로젝트</td><td>{{object.req_user.profile.project}}</td></tr>
+        <tr><td>투입일자</td><td>{{object.req_user.profile.gen_date}}</td><td>철수일자</td><td>{{object.req_user.profile.del_date}}</td></tr>
+        <tr><td>IP</td><td>{{object.req_user.profile.ip}}</td><td>VDI IP</td><td>{{object.req_user.profile.vdi_ip}}</td></tr>
+        <tr><td>상태</td>
+            <td>
+                {% if object.req_user.profile.status == 'N' %} 투입진행중
+                {% elif object.req_user.profile.status == 'P' %} 투입중
+                {% elif object.req_user.profile.status == 'D' %} 철수완료
+                {% elif object.req_user.profile.status == 'O' %} 철수진행중
+                {% endif%}
+            </td>
+            <td>권한</td><td>{{object.req_user.profile.permission}}</td></tr>
+
+    </table>
+
+    <br>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#qwe"><strong>신청 내용</strong></a>
+      </li>
+    </ul>
+    <div class="tabs border">
+      <div id="qwe" class="p-4">
+
+          <table>
+              <tr>
+                  <td>{{object.memo|safe}}</td>
+              </tr>
+          </table>
+
+      </div>
+    </div>
+
+<h6 class="mt-4"><strong>결재정보</strong></h6>
+    <table class="table table-condensed table-striped text-center">
+        <thead>
+        <th>차수</th><th>승인자</th><th>승인여부</th><th>승인일시</th><th>의견</th>
+        </thead>
+
+        {% for i in approve_list %}
+        <tr><td>{{i.seq}}차</td><td>{{i.app_user.profile.kor_name}} {{i.app_user.profile.grade}}</td>
+            {% if i.approved %}
+            <td>{{i.approved}}</td><td><small>{{i.approve_date}}</small></td><td>{{i.comment}}</td>
+            {% else %}
+                {% if i.app_user == user and i.stage == 'Y' %}
+            <td> 미승인</td>
+                    {% if i.final == 'Y' %}
+                <td colspan="3">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#manageModal"  data-bs-req="{{i.req_id.id}}" data-bs-seq="{{i.seq}}" data-bs-id="{{object.id}}">승인/반려</button>
+                </td>
+                    {% else %}
+                <td colspan="3">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#commentModal"  data-bs-req="{{i.req_id.id}}" data-bs-seq="{{i.seq}}" data-bs-id="{{object.id}}">승인/반려</button>
+                </td>
+                    {% endif %}
+                {% else %}
+            <td> 미승인 </td><td colspan="2"></td>
+                {% endif %}
+            {% endif %}
+        </tr>
+      {% endfor %}
+
+    </table>
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="commentModalLabel">Comment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="finalComment" method="post" action="{% url 'user_approve_result' %}">{% csrf_token %}
+              <div class="mb-3">
+                <table class="table table-condensed table-bordered text-center">
+
+                    <tr><td>신청자</td><td>{{object.req_user.profile.kor_name}} {{object.req_user.profile.grade}}</td></tr>
+                    <tr><td>소속회사</td><td>{{object.req_user.profile.company}}</td></tr>
+                    <tr><td>투입프로젝트</td><td>{{object.req_user.profile.project}}</td></tr>
+
+                </table>
+              </div>
+
+
+              <div class="mb-3">
+                <label for="comment" class="col-form-label">Comment:</label>
+                <textarea class="form-control" name="comment" id="comment"></textarea>
+                <input id="req" name = "req" type = "hidden">
+                <input id ="seq" name = "seq" type = "hidden">
+                <input id = "id" name = "id" type = "hidden" >
+
+              </div>
+
+
+              <div class="modal-footer mt-3">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+
+                  <a role="button"  id="btn-a" type="submit" class="btn btn-primary" value="approved" data-toggle="modal" >승인</a>
+                  <a role="button"  id="btn-d" type="submit" class="btn btn-primary" value="denied" data-toggle="modal" >반려</a>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="modal fade" id="manageModal" tabindex="-1" aria-labelledby="manageModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="manageModalLabel">Comment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="manageComment" method="post" action="{% url 'user_approve_result' %}">{% csrf_token %}
+              <div class="mb-3">
+                <table class="table table-condensed table-bordered text-center">
+
+                    <tr><td>신청자</td><td>{{object.req_user.profile.kor_name}} {{object.req_user.profile.grade}}</td></tr>
+                    <tr><td>소속회사</td><td>{{object.req_user.profile.company}}</td></tr>
+                    <tr><td>투입프로젝트</td><td>{{object.req_user.profile.project}}</td></tr>
+
+                </table>
+              </div>
+
+
+              <div class="mb-3">
+                <label for="comment2" class="col-form-label">Comment:</label>
+                <textarea class="form-control" name="comment2" id="comment2" placeholder="의견을 입력해주세요"></textarea>
+                <input id="req2" name = "req2" type = "hidden">
+                <input id ="seq2" name = "seq2" type = "hidden">
+                <input id = "id2" name = "id2" type = "hidden" >
+
+              </div>
+              <div class="mb-3" id="inputControl">
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio0" value="N" checked @change="radioChange($event)">
+                      <label class="form-check-label" for="inlineRadio1"><small>없음</small></label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="V" @change="radioChange($event)">
+                      <label class="form-check-label" for="inlineRadio1"><small>VDI</small></label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="D" @change="radioChange($event)">
+                      <label class="form-check-label" for="inlineRadio2"><small>DB접근제어</small></label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="S" @change="radioChange($event)">
+                      <label class="form-check-label" for="inlineRadio2"><small>서버접근제어</small></label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="A" @change="radioChange($event)">
+                        <label class="form-check-label" for="inlineRadio2"><small>NAS</small></label>
+                    </div>
+                </div>
+
+                <div v-if="accountShow" class="mb-3 row">
+                    <label for="ip" class="col-sm-3 col-form-label text-end">계정정보</label>
+                    <div class="col-sm-9">
+                      <input id="ip" name="ip" type="text" class="form-control" placeholder="계정/초기패스워드">
+                    </div>
+                  </div>
+                  <div v-if="vdiShow" class="mb-3 row" >
+                    <label for="v_ip" class="col-sm-3 col-form-label text-end">VDI IP</label>
+                    <div class="col-sm-9">
+                      <input id="v_ip" name="v_ip" type="text" class="form-control" value="" placeholder="VDI IP">
+                    </div>
+                  </div>
+                </div>
+              <div class="modal-footer mt-3">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+
+                  <a role="button"  id="btn-b" type="submit" class="btn btn-primary" value="approved" data-toggle="modal" >승인</a>
+                  <a role="button"  id="btn-c" type="submit" class="btn btn-primary" value="denied" data-toggle="modal" >반려</a>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="mt-3"><input type="button" class="btn btn-outline-primary float-end" value="뒤로" onclick="back()"></div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+var commentModal = document.getElementById('commentModal')
+commentModal.addEventListener('show.bs.modal', function (event) {
+  var button = event.relatedTarget
+  var req = button.getAttribute('data-bs-req')
+  var seq = button.getAttribute('data-bs-seq')
+  var id = button.getAttribute('data-bs-id')
+  var modalTitle = commentModal.querySelector('.modal-title')
+  var modalBodyInput = commentModal.querySelector('.modal-body textarea')
+  var modalBodyCodeReq = commentModal.querySelector('.modal-body input[id=req]')
+  var modalBodyCodeSeq = commentModal.querySelector('.modal-body input[id=seq]')
+  var modalBodyCodeID = commentModal.querySelector('.modal-body input[id=id]')
+  modalTitle.textContent = '승인/반려'
+  // modalBodyInput.textContent = '의견을 입력해주세요.'
+  modalBodyCodeReq.value = req
+  modalBodyCodeSeq.value = seq
+  modalBodyCodeID.value = id
+})
+
+
+var manageModal = document.getElementById('manageModal')
+manageModal.addEventListener('show.bs.modal', function (event) {
+  var button = event.relatedTarget
+  var req = button.getAttribute('data-bs-req')
+  var seq = button.getAttribute('data-bs-seq')
+  var id = button.getAttribute('data-bs-id')
+  var modalTitle = manageModal.querySelector('.modal-title')
+  var modalBodyInput = manageModal.querySelector('.modal-body textarea')
+  var modalBodyCodeReq = manageModal.querySelector('.modal-body input[id=req2]')
+  var modalBodyCodeSeq = manageModal.querySelector('.modal-body input[id=seq2]')
+  var modalBodyCodeID = manageModal.querySelector('.modal-body input[id=id2]')
+  modalTitle.textContent = '승인/반려'
+  //modalBodyInput.textContent = '승인/반려'
+  modalBodyCodeReq.value = req
+  modalBodyCodeSeq.value = seq
+  modalBodyCodeID.value = id
+})
+
+//승인
+  $('#btn-a').click(function(e) {
+      e.preventDefault()
+
+      var btnValue = $(this).attr('value');
+      var pid = $(`input#req`).val();
+      var dataBody = {
+          req: $(`input#req`).val(),
+          seq: $(`input#seq`).val(),
+          id: $(`input#id`).val(),
+          comment: $(`textarea#comment`).val(),
+          btn: btnValue,
+          }
+
+      $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $.ajax({
+        url: 'approve',
+        method: 'POST',
+        dataType: 'json',
+        data:  JSON.stringify(dataBody),
+        success:function(data) {
+          console.log(data);
+          window.location.href = '/catalog/request/'+pid
+        },
+        error:function() {
+          alert('처리실패')
+          window.location.href = '/catalog/request/'+ pid
+        }
+      })
+    })
+
+//반려
+  $('#btn-d').click(function(e) {
+      e.preventDefault()
+
+      var btnValue = $(this).attr('value');
+      var pid = $(`input#req`).val();
+      var dataBody = {
+          req: $(`input#req`).val(),
+          seq: $(`input#seq`).val(),
+          id: $(`input#id`).val(),
+          comment: $(`textarea#comment`).val(),
+          btn: btnValue,
+          }
+
+      $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $.ajax({
+        url: 'approve',
+        method: 'POST',
+        dataType: 'json',
+        data:  JSON.stringify(dataBody),
+        success:function(data) {
+          console.log(data);
+          window.location.href = '/catalog/request/'+pid
+        },
+        error:function() {
+          window.location.href = '/catalog/request/'+ pid
+        }
+      })
+    })
+
+// 최종 처리
+  $('#btn-b').click(function(e) {
+      e.preventDefault()
+
+      var btnValue = $(this).attr('value');
+      var pid = $(`input#req2`).val();
+      var dataBody = {
+          req: $(`input#req2`).val(),
+          seq: $(`input#seq2`).val(),
+          id: $(`input#id2`).val(),
+          comment: $(`textarea#comment2`).val(),
+          btn: btnValue,
+          type: $('input[name="inlineRadioOptions"]:checked').val(),
+          value: $(`input#ip`).val(),
+          v_ip: $(`input#v_ip`).val(),
+          }
+
+      $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $.ajax({
+        url: 'approve',
+        method: 'POST',
+        dataType: 'json',
+        data:  JSON.stringify(dataBody),
+        success:function(data) {
+          console.log(data);
+          window.location.href = '/catalog/request/'+pid
+        },
+        error:function() {
+          alert('처리실패')
+          window.location.href = '/catalog/request/'+ pid
+        }
+      })
+    })
+
+//반려
+  $('#btn-c').click(function(e) {
+      e.preventDefault()
+
+      var btnValue = $(this).attr('value');
+      var pid = $(`input#req2`).val();
+      var dataBody = {
+          req: $(`input#req2`).val(),
+          seq: $(`input#seq2`).val(),
+          id: $(`input#id2`).val(),
+          comment: $(`textarea#comment2`).val(),
+          btn: btnValue,
+          }
+
+      $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $.ajax({
+        url: 'approve',
+        method: 'POST',
+        dataType: 'json',
+        data:  JSON.stringify(dataBody),
+        success:function(data) {
+          console.log(data);
+          window.location.href = '/catalog/request/'+pid
+        },
+        error:function() {
+          window.location.href = '/catalog/request/'+ pid
+        }
+      })
+    })
+</script>
+
+<script>
+    new Vue({
+        el: "#inputControl",
+        data : {accountShow: false,
+                vdiShow: false
+                },
+        methods: {
+            radioChange(event){
+                    var selected = event.target.value;
+                    if(selected == 'V'){this.vdiShow= true}
+                    else{this.vdiShow= false}
+                    if(selected == 'N'){this.accountShow= false}
+                    else{this.accountShow= true}
+                }
+        }
+    })
+
+</script>
+
+{% endblock %}
