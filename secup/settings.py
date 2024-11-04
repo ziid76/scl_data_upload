@@ -53,6 +53,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.crosspeter.com',
+    'https://*.127.0.0.1',
+    'https://*.0.0.0.0',
+]
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = (
