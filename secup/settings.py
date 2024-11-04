@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-*ae_!^!sw7@cu2j&0pzro@jliw(3v3rjfk5!vz6l-s##t2ic-@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', "crosspeter.com" ]
+ALLOWED_HOSTS = ['127.0.0.1', "https://crosspeter.com" ]
 
 # Application definition
 
@@ -55,6 +55,9 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://crosspeter.com",  # 요청을 허용할 도메인
+    'https://www.crosspeter.com',  # www 포함
+    'https://localhost:8080',
+        # 로컬 개발 시 필요
 ]
 
 
