@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog.apps.CatalogConfig',
     'widget_tweaks',
-    'django_summernote'
+    'django_summernote',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -48,8 +49,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://crosspeter.com",  # 요청을 허용할 도메인
+]
+
 
 ROOT_URLCONF = 'secup.urls'
 
