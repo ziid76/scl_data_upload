@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'widget_tweaks',
     'django_summernote',
-    'corsheaders',
+    #'corsheaders',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    #'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+"""
 CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = [
     'https://*.crosspeter.com',
@@ -80,9 +81,9 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
-
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+"""
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'secup.urls'
 
