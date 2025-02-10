@@ -4,94 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Report</title>
+    
+    <!-- DataTables 및 FixedColumns 플러그인 스타일 -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+    
     <style>
-        table {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .dataTables_wrapper {
             width: 100%;
+            overflow: auto;
+        }
+        table {
             border-collapse: collapse;
+            width: 100%;
         }
         th, td {
             border: 1px solid black;
             padding: 8px;
             text-align: center;
+            white-space: nowrap;  /* 텍스트 줄 바꿈 방지 */
         }
         th {
             background-color: #f2f2f2;
+        }
+        div.dataTables_wrapper {
+            width: 100%;
+            overflow: auto;
         }
     </style>
 </head>
 <body>
 
     <h2>Daily Report</h2>
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>계획</th>
-                <th>실적</th>
-                <th>계획대비</th>
-                <th>계획</th>
-                <th>MTD 계획</th>
-                <th>실적</th>
-                <th>계획대비</th>
-                <th>계획</th>
-                <th>YTD 계획</th>
-                <th>실적</th>
-                <th>계획대비</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>도시가스</td>
-                <td>구매량</td>
-                <td>천㎥</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>광명</td>
-                <td>전기 (직판)</td>
-                <td>MWh</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>광명</td>
-                <td>열 (지구내)</td>
-                <td>Gcal</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-        </tbody>
-    </table>
+    
+    <div style="width: 100%; overflow-x: auto;">
+        <table id="reportTable" class="display nowrap">
+            <thead>
+                <tr>
+                    <th>1번 셀</th>
+                    <th>2번 셀</th>
+                    <th>3번 셀</th>
+                    <th>4번 셀</th>
+                    <th>5번 셀</th>
+                    <th>6번 셀</th>
+                    <th>...</th> <!-- 추가 컬럼 -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>값1</td>
+                    <td>값2</td>
+                    <td>값3</td>
+                    <td>값4</td>
+                    <td>값5</td>
+                    <td>값6</td>
+                    <td>...</td>
+                </tr>
+                <tr>
+                    <td>값A</td>
+                    <td>값B</td>
+                    <td>값C</td>
+                    <td>값D</td>
+                    <td>값E</td>
+                    <td>값F</td>
+                    <td>...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#reportTable').DataTable({
+                scrollX: true,  // 가로 스크롤 활성화
+                scrollY: "500px",  // 세로 높이 지정
+                scrollCollapse: true,
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                fixedColumns: {
+                    leftColumns: 3  // 왼쪽에서 3개 컬럼 고정
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
