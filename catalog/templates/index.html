@@ -1,88 +1,57 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>그룹 실적 관리</title>
+{% extends "base_generic.html" %}
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-        }
-        .table-container {
-            width: 100%;
-            overflow-x: auto; /* 가로 스크롤 추가 */
-            position: relative;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-            white-space: nowrap;  /* 텍스트 줄 바꿈 방지 */
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        /* 첫 번째 컬럼 고정 */
-        .sticky-column {
-            position: sticky;
-            left: 0;
-            background: white; /* 배경색 추가 (스크롤 시 가려지는 문제 방지) */
-            z-index: 2;
-        }
-        /* 테이블 헤더도 고정 */
-        thead th {
-            position: sticky;
-            top: 0;
-            background: #f2f2f2;
-            z-index: 3;
-        }
-    </style>
-</head>
-<body>
 
-    <h2>그룹 실적 관리</h2>
-    
-    <div class="table-container">
-        <table class="table table-hover text-center">
-            <thead>
-                <tr>
-                    <th class="sticky-column">회사명</th>
-                    <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
-                    <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if upload_result %}
-                    {% for data in upload_result %}
-                        <tr>
-                            {% for val in data %}
-                                <td class="{% if loop.first %}sticky-column{% endif %}">
-                                    {% if val == True %}
-                                        <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
-                                    {% elif val == False %}
-                                        <span class="text-muted">X</span>
-                                    {% else %}
-                                        {{ val }}
-                                    {% endif %}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="13" class="text-center">내역이 없습니다.</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+{% block page_name %}
+- 그룹 성과 관리 -
+{% endblock %}
 
-</body>
-</html>
+
+{% block content %}
+
+<table class="table table-hover text-center">
+  <thead>
+      <tr>
+          <th>회사명</th>
+          <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
+          <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% if upload_result %}
+          {% for data in upload_result %}
+              <tr>
+                  {% for val in data %}
+                      <td>
+                          {% if val == True %}
+                              <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+                          {% elif val == False %}
+                              <span class="text-muted">X</span>
+                          {% else %}
+                              {{ val }}
+                          {% endif %}
+                      </td>
+                  {% endfor %}
+              </tr>
+          {% endfor %}
+      {% else %}
+          <tr>
+              <td colspan="13" class="text-center">내역이 없습니다.</td>
+          </tr>
+      {% endif %}
+      <tr>
+        <td>광명</td><td rowspan="3">열<br>(지구내)</td><td>2월</td><td>3월</td><td>4월</td><td>5월</td><td>6월</td><td>1월</td><td>2월</td><td>3월</td><td>4월</td><td>5월</td><td>6월</td>
+      </tr>
+      <tr>
+        <td>휴세스</td>                    <td>2월</td><td>3월</td><td>4월</td><td>5월</td><td>6월</td><td>1월</td><td>2월</td><td>3월</td><td>4월</td><td>5월</td><td>6월</td>
+      </tr>
+      <tr>
+        <td>안산</td>                    <td>2월</td><td>3월</td><td>4월</td><td>5월</td><td>6월</td><td>1월</td><td>2월</td><td>3월</td><td>4월</td><td>5월</td><td>6월</td>
+      </tr>
+  </tbody>
+</table>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}  
