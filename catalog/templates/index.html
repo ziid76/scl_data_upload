@@ -1,85 +1,97 @@
-{% extends "base_generic.html" %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Report</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
 
+    <h2>Daily Report</h2>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>계획</th>
+                <th>실적</th>
+                <th>계획대비</th>
+                <th>계획</th>
+                <th>MTD 계획</th>
+                <th>실적</th>
+                <th>계획대비</th>
+                <th>계획</th>
+                <th>YTD 계획</th>
+                <th>실적</th>
+                <th>계획대비</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>도시가스</td>
+                <td>구매량</td>
+                <td>천㎥</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>광명</td>
+                <td>전기 (직판)</td>
+                <td>MWh</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>광명</td>
+                <td>열 (지구내)</td>
+                <td>Gcal</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
 
-{% block page_name %}
-- 그룹 성과 관리 -
-{% endblock %}
-
-
-{% block content %}
-
-
-    <div class="table-responsive">
-      <table class="table table-hover text-center">
-          <thead>
-              <tr>
-                  <th>회사명</th>
-                  <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
-                  <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% if upload_result %}
-                  {% for data in upload_result %}
-                      <tr>
-                          {% for val in data %}
-                              <td>
-                                  {% if val == True %}
-                                      <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
-                                  {% elif val == False %}
-                                      <span class="text-muted">X</span>
-                                  {% else %}
-                                      {{ val }}
-                                  {% endif %}
-                              </td>
-                          {% endfor %}
-                      </tr>
-                  {% endfor %}
-              {% else %}
-                  <tr>
-                      <td colspan="13" class="text-center">내역이 없습니다.</td>
-                  </tr>
-              {% endif %}
-          </tbody>
-      </table>
-  </div>
-
-{% endblock %}
-
-{% block script %}
-<script>
-var commentModal = document.getElementById('commentModal')
-commentModal.addEventListener('show.bs.modal', function (event) {
-  var button = event.relatedTarget
-  var pid = button.getAttribute('data-bs-id')
-  var modalTitle = commentModal.querySelector('.modal-title')
-
-  modalTitle.textContent = '철수신청'
-})
-
-$('#createComment').submit((event) => {
-  event.preventDefault()
-
-  var pid = $(`input#profile`).val();
-  var dataBody = {
-      }
-
-  $.ajaxSetup({
-    headers: { "X-CSRFToken": '{{csrf_token}}' }
-  });
-
-  $.ajax({
-    url: '/catalog/user/retire/'+pid,
-    method: 'GET',
-    success:function(data) {
-      window.location.href = '/catalog/user/'+pid
-    },
-    error:function() {
-      alert('Process Fail');
-      window.location.href = '/catalog/'
-    }
-  })
-
-});
-</script>
-{% endblock %}
+</body>
+</html>
