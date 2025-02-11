@@ -25,99 +25,45 @@
 
     </head>
     <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-static-top navbar-light bg-light" >
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="{% url 'index' %}"><img src="{% static 'img/logo_small.jpg' %}" ></a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>-->
-
-            <!-- Navbar-->
-            <p class="text-black">&nbsp;&nbsp;&nbsp;&nbsp; {{ user.profile.kor_name }} {{ user.profile.grade }}  ({{ user.profile.project }})</p>
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'user' user.profile.id %}">{{ user.profile.kor_name }} 님의 정보</a></li>
-
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'password_edit' %}">비밀번호 변경</a></li>
-                        <li><a class="dropdown-item" href="{% url 'logout'%}">로그아웃</a></li>
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand ps-3" href="{% url 'index' %}"><img src="{% static 'img/logo_small.jpg' %}" ></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="#">에너지환경</a></li>
+                      <li><a class="dropdown-item" href="#">생활문화</a></li>
+                      <li><a class="dropdown-item" href="#">삼천리EV</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="{% url 'password_edit' %}">비밀번호 변경</a></li>
+                      <li><a class="dropdown-item" href="{% url 'logout'%}">로그아웃</a></li>
                     </ul>
-                </li>
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-
-                            <div class="sb-sidenav-menu-heading">경영성과 관리</div>
-
-                            <a class="nav-link" href="{% url 'upload_excel' %}">
-                                <div class="sb-nav-link-icon">
-                                    {% if 'S' in user.profile.chk_sign%}
-                                    <i class="fas fa-battery-full text-success"></i>
-                                    {% else %}
-                                    <i class="fas fa-battery-quarter text-danger"></i>
-                                    {% endif %}
-                                </div>경영성과 업로드
-                            </a>
-                            <a class="nav-link" href="{% url 'upload_history' %}">
-                                <div class="sb-nav-link-icon">
-                                    {% if 'V' in user.profile.chk_sign%}
-                                    <i class="fas fa-battery-full text-success"></i>
-                                    {% else %}
-                                    <i class="fas fa-battery-quarter text-danger"></i>
-                                    {% endif %}
-                                </div>업로드 이력
-                            </a>
-
-                            <div class="sb-sidenav-menu-heading">관련 양식</div>
-                            <a class="nav-link" href="{% static 'doc/upload_template.xlsx' %}" target="_blank">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-reader"></i></div><b>엑셀 템플릿 Download</b>
-                            </a>
-                            <a class="nav-link" href="{% static 'doc/vdi_user_manual_202206.pdf' %}" target="_blank">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-reader"></i></div><b>사용 매뉴얼</b>
-                            </a>
-
-                            
- 
-{% if user.profile.permission == 'M' or user.profile.permission == 'P' %}
-                            <div class="sb-sidenav-menu-heading">사용자 관리 {{user.profile.permission}}</div>
-                            <a class="nav-link" href="{% url 'user_create_new' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>사용자 계정 생성
-                            </a>
-
-                            <a class="nav-link" href="{% url 'user_create_list' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-address-card"></i></div>투입진행현황
-                            </a>
-                            <a class="nav-link" href="{% url 'user_approve_list' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>투입 승인&nbsp&nbsp<span class="badge bg-primary"> {{user.profile.count_i}}</span>
-                            </a>
-
-
-                            <div class="sb-sidenav-menu-heading">관리자</div>
-                            <a class="nav-link" href="{% url 'project_list' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>부서별 현황
-                            </a>
-                            <a class="nav-link" href="{% url 'manage_user' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>사용자 현황
-                            </a>
-
-{% endif %}
-                        </div>
-                    </div>
-
-                </nav>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                  </li>
+                </ul>
+                <form class="d-flex">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+              </div>
             </div>
+          </nav>
+        <div id="layoutSidenav">
             <div id="layoutSidenav_content">
                 <main style="width: 1100px">
                     <div class="container-fluid px-4">
