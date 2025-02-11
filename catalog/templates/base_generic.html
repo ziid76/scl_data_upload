@@ -4,7 +4,7 @@
 
 <html lang="kr">
     <head>
-      {% block title %}<title>삼천리그룹 경영성과 관리</title>{% endblock %}
+      {% block title %}<title>삼천리그룹 경영성과</title>{% endblock %}
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -25,7 +25,7 @@
 
     </head>
     <body class="sb-nav-fixed">
-        <nav class="navbar navbar-light bg-light">
+        <nav class="navbar navbar-dark style="background-color:rgb(44, 73, 94);"">
             <div class="container-fluid">
               <a class="navbar-brand ps-3" href="{% url 'index' %}"><img src="{% static 'img/logo_small.jpg' %}" ></a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,7 @@
           </nav>
                 <main style="width: 1100px">
                     <div class="container-fluid ">
-                       <h4 class="mt-3 pb-2 border-bottom"><small>
+                       <h4 class="mt-3 pb-2"><small>
 
                     {% block page_name %}
                     {% endblock %}
@@ -91,7 +91,7 @@
       <script src="{% static 'js/summernote-lite.js' %}"></script>
       <script src="{% static 'js/lang/summernote-ko-KR.js' %}"></script>
       <script src="https://kit.fontawesome.com/880f6fbd76.js" crossorigin="anonymous"></script>
-       <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script> -->>
+       <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script> -->
        <script type="text/javascript" src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 
 
