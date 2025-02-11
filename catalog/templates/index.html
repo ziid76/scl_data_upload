@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<table class=" table table-hover text-center" id="custom_table">
+<table class=" table table-hover text-center" id="master_table">
   <thead>
       <tr>
           <th colspan='3' rowspan='3' class="text-center">구분</th>
@@ -50,5 +50,17 @@
 {% endblock %}
 
 {% block script %}
-
+<script>
+    $(document).ready(function() {
+        $('#master_table').DataTable( {
+            "searching":   false,
+            "ordering": false,
+            "paging":   false,
+            "info":     false,
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/ko.json"
+            }
+        } );
+    } );
+</script>
 {% endblock %}  
