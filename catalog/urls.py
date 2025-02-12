@@ -62,7 +62,7 @@ urlpatterns += [
 
 ]
 urlpatterns += [
-    path('report/energy', views.index, name='energy_report'),
-    path('report/life', report_view.report_life, name='life_report'),
-    path('report/ev', report_view.report_ev, name='ev_report'),
+    path('report/energy/', views.index, name='energy_report'),
+    path('report/life/', report_view.report_life, name='life_report'),
+    path('report/ev/', report_view.report_ev, name='ev_report'),
 ]
