@@ -1,5 +1,5 @@
 from django.urls import path
-from catalog.views import views, manage_view, user_view, request_view, retire_view, util, upload_view
+from catalog.views import views, manage_view, user_view, request_view, retire_view, util, upload_view, report_view
 from django.utils.translation import gettext_lazy as _
 
 urlpatterns = [
@@ -61,4 +61,8 @@ urlpatterns += [
     path('upload/<int:pk>',upload_view.excel_upload_detail, name='upload_detail'),
 
 ]
-
+urlpatterns += [
+    path('report/energy', views.index, name='energy_report'),
+    path('report/life', report_view.report_life, name='life_report'),
+    path('report/ev', report_view.report_ev, name='ev_report'),
+]
