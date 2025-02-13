@@ -7,7 +7,7 @@
 
 
 {% block content %}
-
+<div class="small">
 <table class="table table-bordered table-sm ">
     <thead class="text-center table-dark align-middle bg-primary">
         <tr>
@@ -39,16 +39,16 @@
           <td rowspan="5">SL&C<br>매출</td>
           <td>Chai797</td>
           <td rowspan="5">백만원</td>
-          <td>{{d_b_d_sum}}</td>
-          <td>{{d_a_d_sum}}</td>
+          <td>{{d_b_c_sum}}</td>
+          <td>{{d_a_c_sum}}</td>
           <td>{{ d_c_per|floatformat:1 }}%</td>
           <td>20,216</td>
-          <td>{{m_b_d_sum}}</td>
-          <td>{{m_a_d_sum}}</td>
+          <td>{{m_b_c_sum}}</td>
+          <td>{{m_a_c_sum}}</td>
           <td>{{ m_c_per|floatformat:1 }}%</td>
           <td>20,216</td>          
-          <td>{{y_b_d_sum}}</td>
-          <td>{{y_a_d_sum}}</td>
+          <td>{{y_b_c_sum}}</td>
+          <td>{{y_a_c_sum}}</td>
           <td>{{ y_c_per|floatformat:1 }}%</td>
         </tr>
         <tr>
@@ -137,10 +137,8 @@
           
     </tbody>
 </table>
-
-<div>
-  {{dataset}}
 </div>
+
   
 
 {% endblock %}
