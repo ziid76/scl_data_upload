@@ -9,8 +9,11 @@ import numpy as np
 from datetime import datetime
 
 def number_format(input):
+    
+    if input == 0: formatted_number = ''
+    else: 
         # 100만 단위로 변환하고 천 단위 구분 기호 추가
-    formatted_number = "{:,.0f}".format(input / 1000000)
+        formatted_number = "{:,.0f}".format(input / 1000000)
 
     return formatted_number
 
@@ -133,7 +136,7 @@ def report_dinning(request):
         'd_b_j_sum': number_format(d_b_j_sum),
         'd_a_j_sum': number_format(d_a_j_sum),
         'd_j_per': d_a_j_sum/d_b_j_sum * 100,
-        'm_b_ㅓ_sum': number_format(m_b_j_sum),
+        'm_b_j_sum': number_format(m_b_j_sum),
         'm_a_j_sum': number_format(m_a_j_sum),
         'm_j_per': m_a_j_sum/m_b_j_sum * 100,
         'y_b_j_sum': number_format(y_b_j_sum),
