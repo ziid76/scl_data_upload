@@ -35,6 +35,7 @@ def report_dinning(request):
     dataset = []
 
     print(table)
+    print("여기")
 
     #for records in table.iterate(page_size=100, max_records=1000):
     #    dataset.append(records[2])
