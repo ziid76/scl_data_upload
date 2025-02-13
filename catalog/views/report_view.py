@@ -34,12 +34,21 @@ def report_dinning(request):
     table.all(sort=["date"])
     dataset = []
 
-    print(table)
-    print("여기")
-
-    #for records in table.iterate(page_size=100, max_records=1000):
+    for records in table.iterate(page_size=100, max_records=1000):
     #    dataset.append(records[2])
-    #    print(records)
-    
+        print(records)
+     
+    data = [entry['fields'] for entry in records]
+
+    # 'specialValue': 'NaN'을 np.nan으로 변환
+    for row in data:
+        for key, value in row.items():
+            if isinstance(value, dict) and value.get("specialValue") == "NaN":
+                row[key] = np.nan
+
+    # 데이터프레임 생성
+    df = pd.DataFrame(data)
+
+    print(df)
     return render(request, 'report_dinning.html', dataset)
 
