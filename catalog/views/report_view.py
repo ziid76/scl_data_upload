@@ -10,7 +10,7 @@ from datetime import datetime
 
 def number_format(input):
         # 100만 단위로 변환하고 천 단위 구분 기호 추가
-    formatted_number = "{:,.1f}".format(input / 1000000)
+    formatted_number = "{:,.0f}".format(input / 1000000)
 
     return formatted_number
 
@@ -75,6 +75,7 @@ def report_dinning(request):
     y_b_d_sum = df[(df['date'] >= year_start_date) & (df['date'] <= search_date)]['chai_budget'].sum()
     y_a_d_sum = df[(df['date'] >= year_start_date) & (df['date'] <= search_date)]['chai_actual'].sum()
     m_b_d_sum = df[(df['date'] >= month_start_date) & (df['date'] <= search_date)]['chai_budget'].sum()
+    m_a_d_sum = df[(df['date'] >= month_start_date) & (df['date'] <= search_date)]['chai_actual'].sum()
     d_b_d_sum = df[(df['date'] >= search_date) & (df['date'] <= search_date)]['chai_budget'].sum()
     d_a_d_sum = df[(df['date'] >= search_date) & (df['date'] <= search_date)]['chai_actual'].sum()
 
@@ -82,10 +83,10 @@ def report_dinning(request):
 
     print(df)
     values ={
-        'daily': number_format(d_b_d_sum),
-        'd_a_d_sum': number_format(y_a_d_sum),
-        'monthly': number_format(m_b_d_sum),
-
+        'd_b_d_sum': number_format(d_b_d_sum),
+        'd_a_d_sum': number_format(d_a_d_sum),
+        'm_b_d_sum': number_format(m_b_d_sum),
+        'm_a_d_sum': number_format(m_a_d_sum),
         'y_b_d_sum': number_format(y_b_d_sum),
         'y_a_d_sum': number_format(y_a_d_sum),
     }
