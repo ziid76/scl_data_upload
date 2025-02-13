@@ -69,6 +69,15 @@ def report_dinning(request):
     month_start_date = today.replace(day=1)
     search_date = "2025-02-06"
 
+    df[(df['date'] == search_date)]['chai_actual']
+    df[(df['date'] == "2025-02-01")]['chai_actual']
+    df[(df['date'] == "2025-02-02")]['chai_actual']
+    df[(df['date'] == "2025-02-03")]['chai_actual']
+    df[(df['date'] == "2025-02-04")]['chai_actual']
+    df[(df['date'] == "2025-02-05")]['chai_actual']
+
+
+
     # 기간 내 데이터 필터링 후 합산
     y_b_d_sum = df[(df['date'] >= year_start_date) & (df['date'] <= search_date)]['chai_budget'].sum()
     y_a_d_sum = df[(df['date'] >= year_start_date) & (df['date'] <= search_date)]['chai_actual'].sum()
