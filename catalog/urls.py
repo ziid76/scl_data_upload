@@ -65,5 +65,6 @@ urlpatterns += [
     path('report/energy/', report_view.report_energy, name='energy_report'),
     path('report/energy_tab/', report_view.report_energy_tab, name='energy_report_tab'),
     path('report/life/', report_view.report_life, name='life_report'),
+    path('report/dinning/', report_view.report_dinning, name='dinning_report'),
     path('report/ev/', report_view.report_ev, name='ev_report'),
 ]
