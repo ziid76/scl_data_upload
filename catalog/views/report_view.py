@@ -33,10 +33,11 @@ def report_dinning(request):
     api = Api(token)
     table = api.table('appoYNBPdtDWEP3jr', 'SL&C')
     table.all(sort=["date"])
+
     for records in table.iterate(page_size=100, max_records=1000):
     #    dataset.append(records[2])
-        print(records)
      
+
     data = [entry['fields'] for entry in records]
 
     # 'specialValue': 'NaN'을 np.nan으로 변환
@@ -50,9 +51,7 @@ def report_dinning(request):
 
     # date 필드를 datetime 형식으로 변환
     df['date'] = pd.to_datetime(df['date'])
-
-    # 특정 기간 설정 (예: 2025-01-15 ~ 2025-01-30)
-    
+  
 
     # 오늘 날짜
     today = datetime.today()
@@ -61,7 +60,7 @@ def report_dinning(request):
     year_start_date = "2025-01-01"
     month_start_date = today.replace(day=1)
     search_date = "2025-02-6"
-    print(month_start_date.strftime("%Y-%m-%d"))  # YYYY-MM-DD 형식 출력
+
 
 
     # 기간 내 데이터 필터링 후 합산
