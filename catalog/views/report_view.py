@@ -110,6 +110,14 @@ def report_dinning(request):
     d_b_i_sum = df[(df['date'] == search_date)]['i_budget'].sum()
     d_a_i_sum = df[(df['date'] == search_date)]['i_actual'].sum()
 
+    # 외식합계
+    y_b_d_sum = df[(df['date'] >= year_start_date) & (df['date'] <= search_date)]['dinning_budget'].sum()
+    y_a_d_sum = df[(df['date'] >= year_start_date) & (df['date'] <= search_date)]['dinning_actual'].sum()
+    m_b_d_sum = df[(df['date'] >= month_start_date) & (df['date'] <= search_date)]['dinning_budget'].sum()
+    m_a_d_sum = df[(df['date'] >= month_start_date) & (df['date'] <= search_date)]['dinning_actual'].sum()
+    d_b_d_sum = df[(df['date'] == search_date)]['dinning_budget'].sum()
+    d_a_d_sum = df[(df['date'] == search_date)]['dinning_actual'].sum()
+
     values ={
         # 차이797
         'd_b_c_sum': number_format(d_b_c_sum),
@@ -154,13 +162,23 @@ def report_dinning(request):
         # 일식
         'd_b_i_sum': number_format(d_b_i_sum),
         'd_a_i_sum': number_format(d_a_i_sum),
-        'd_i_per': d_a_h_sum/d_b_h_sum * 100,
+        'd_i_per': d_a_i_sum/d_b_i_sum * 100,
         'm_b_i_sum': number_format(m_b_i_sum),
         'm_a_i_sum': number_format(m_a_i_sum),
-        'm_i_per': m_a_h_sum/m_b_h_sum * 100,
+        'm_i_per': m_a_i_sum/m_b_i_sum * 100,
         'y_b_i_sum': number_format(y_b_i_sum),
         'y_a_i_sum': number_format(y_a_i_sum),
-        'y_i_per': y_a_h_sum/y_b_h_sum * 100,
+        'y_i_per': y_a_i_sum/y_b_i_sum * 100,
+        # 외식합계
+        'd_b_d_sum': number_format(d_b_d_sum),
+        'd_a_d_sum': number_format(d_a_d_sum),
+        'd_d_per': d_a_d_sum/d_b_d_sum * 100,
+        'm_b_d_sum': number_format(m_b_d_sum),
+        'm_a_d_sum': number_format(m_a_d_sum),
+        'm_d_per': m_a_d_sum/m_b_d_sum * 100,
+        'y_b_d_sum': number_format(y_b_d_sum),
+        'y_a_d_sum': number_format(y_a_d_sum),
+        'y_d_per': y_a_d_sum/y_b_d_sum * 100,
     }
     
     return render(request, 'report_dinning.html', values)
