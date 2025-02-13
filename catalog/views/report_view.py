@@ -73,16 +73,19 @@ def report_dinning(request):
 
     # 기간 내 데이터 필터링 후 합산
     y_b_d_sum = df[(df['date'] >= year_start_date) & (df['date'] <= search_date)]['chai_budget'].sum()
+    y_a_d_sum = df[(df['date'] >= year_start_date) & (df['date'] <= search_date)]['chai_actual'].sum()
     m_b_d_sum = df[(df['date'] >= month_start_date) & (df['date'] <= search_date)]['chai_budget'].sum()
     d_b_d_sum = df[(df['date'] >= search_date) & (df['date'] <= search_date)]['chai_budget'].sum()
+    d_a_d_sum = df[(df['date'] >= search_date) & (df['date'] <= search_date)]['chai_actual'].sum()
 
 
 
     print(df)
     values ={
         'daily': number_format(d_b_d_sum),
-        'monthly': m_b_d_sum,
-        'yearly': y_b_d_sum,
+        'd_a_d_sum': number_format(y_a_d_sum),
+        'monthly': number_format(m_b_d_sum),
+        'yearly': number_format(y_b_d_sum),
     }
     
     return render(request, 'report_dinning.html', values)
