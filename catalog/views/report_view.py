@@ -4,6 +4,7 @@ import requests
 import json, time
 import os
 from pyairtable import Api
+import pandas as pd
 
 def report_energy(request):
 
@@ -29,11 +30,12 @@ def report_dinning(request):
     token = "patDs94pPtxWMacxB.e626ab06168396d4388d5e571097f288f8fe8444fe304e61c28025877d917939"
     api = Api(token)
     table = api.table('appoYNBPdtDWEP3jr', 'SL&C')
-    table.all(sort=["date"])
-    dataset = {}
+    dataset = table.all(sort=["date"])
+    df = pd.read_json(dataset)
 
-    for records in table.iterate(page_size=100, max_records=1000):
-        dataset.append(records)
+
+#    for records in table.iterate(page_size=100, max_records=1000):
+#        dataset.append(records)
     
-    return render(request, 'report_dinning.html', dataset)
+    return render(request, 'report_dinning.html', df)
 
