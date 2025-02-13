@@ -35,8 +35,8 @@ def report_dinning(request):
 
 
     for records in table.iterate(page_size=100, max_records=1000):
-        dataset.append(records[2])
-        print(records[2])
+    #    dataset.append(records[2])
+        print(records)
     
     return render(request, 'report_dinning.html', dataset)
 
