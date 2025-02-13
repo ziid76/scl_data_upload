@@ -69,12 +69,12 @@ def report_dinning(request):
     month_start_date = today.replace(day=1)
     search_date = "2025-02-06"
 
-    df[(df['date'] == search_date)]['chai_actual']
-    df[(df['date'] == "2025-02-01")]['chai_actual']
-    df[(df['date'] == "2025-02-02")]['chai_actual']
-    df[(df['date'] == "2025-02-03")]['chai_actual']
-    df[(df['date'] == "2025-02-04")]['chai_actual']
-    df[(df['date'] == "2025-02-05")]['chai_actual']
+    print(df[(df['date'] == search_date)]['chai_actual'])
+    print(df[(df['date'] == "2025-02-01")]['chai_actual'])
+    print(df[(df['date'] == "2025-02-02")]['chai_actual'])
+    print(df[(df['date'] == "2025-02-03")]['chai_actual'])
+    print(df[(df['date'] == "2025-02-04")]['chai_actual'])
+    print(df[(df['date'] == "2025-02-05")]['chai_actual'])
 
 
 
