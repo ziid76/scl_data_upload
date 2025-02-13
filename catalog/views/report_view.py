@@ -66,7 +66,7 @@ def report_dinning(request):
 
     # 이번 달의 첫째 날
     year_start_date = "2025-01-01"
-    month_start_date = today.replace(day=1)
+    month_start_date = today.replace(day=1).strftime("%Y-%m-%d")
     search_date = "2025-02-06"
 
     print(df[(df['date'] == search_date)]['chai_actual'])
