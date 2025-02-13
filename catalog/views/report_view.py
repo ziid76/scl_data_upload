@@ -30,7 +30,7 @@ def report_dinning(request):
     api = Api(token)
     table = api.table('appoYNBPdtDWEP3jr', 'SL&C')
     table.all(sort=["date"])
-    dataset = []
+    dataset = {}
 
     for records in table.iterate(page_size=100, max_records=1000):
         dataset.append(records)
