@@ -8,6 +8,10 @@
 
 {% block content %}
 
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
 <table class="table table-bordered table-sm ">
     <thead class="text-center table-dark align-middle bg-primary">
         <tr>
@@ -233,17 +237,40 @@
 {% endblock %}
 
 {% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#master_table').DataTable( {
-            "searching":   false,
-            "ordering": false,
-            "paging":   false,
-            "info":     false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/ko.json"
-            }
-        } );
-    } );
+  const ctx = document.getElementById('myChart');
+
+  const labels = Utils.months({count: 7});
+  
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: '모터스',
+      data: [65, 59, 80, 81, 56, 55, 40],
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    },
+    {
+      label: 'EV',
+      data: [63, 52, 80, 35, 7, 35, 65],
+      fill: false,
+      borderColor: 'rgb(214, 86, 165)',
+      tension: 0.1
+    }]
+  };
+  
+  new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
 </script>
 {% endblock %}  

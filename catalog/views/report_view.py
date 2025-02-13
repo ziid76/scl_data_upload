@@ -60,7 +60,7 @@ def report_dinning(request):
 
     data = [entry['fields'] for entry in records]
 
-    # 'specialValue': 'NaN'을 np.nan으로 변환
+    # 'specialValue': 'NaN'을 0으로 변환
     for row in data:
         for key, value in row.items():
             if isinstance(value, dict) and value.get("specialValue") == "NaN":
