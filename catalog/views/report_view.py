@@ -30,13 +30,12 @@ def report_dinning(request):
     token = "patDs94pPtxWMacxB.e626ab06168396d4388d5e571097f288f8fe8444fe304e61c28025877d917939"
     api = Api(token)
     table = api.table('appoYNBPdtDWEP3jr', 'SL&C')
-    dataset = table.all(sort=["date"])
-    df = pd.DataFrame(dataset)
-    print(df)
+    table.all(sort=["date"])
+    dataset = []
 
 
-#    for records in table.iterate(page_size=100, max_records=1000):
-#        dataset.append(records)
+    for records in table.iterate(page_size=100, max_records=1000):
+        dataset.append(records['fields'])
     
-    return render(request, 'report_dinning.html', df)
+    return render(request, 'report_dinning.html', dataset)
 
