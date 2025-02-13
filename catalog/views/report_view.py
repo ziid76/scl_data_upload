@@ -32,6 +32,7 @@ def report_dinning(request):
     table = api.table('appoYNBPdtDWEP3jr', 'SL&C')
     dataset = table.all(sort=["date"])
     df = pd.DataFrame(dataset)
+    print(df)
 
 
 #    for records in table.iterate(page_size=100, max_records=1000):
