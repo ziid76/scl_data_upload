@@ -8,6 +8,13 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
+def number_format(input):
+        # 100만 단위로 변환하고 천 단위 구분 기호 추가
+    formatted_number = "{:,.1f}".format(input / 1000000)
+
+    return formatted_number
+
+
 def report_energy(request):
 
     return render(request, 'index.html')
@@ -73,7 +80,7 @@ def report_dinning(request):
 
     print(df)
     values ={
-        'daily': d_b_d_sum,
+        'daily': number_format(d_b_d_sum),
         'monthly': m_b_d_sum,
         'yearly': y_b_d_sum,
     }
