@@ -5,6 +5,7 @@ import json, time
 import os
 from pyairtable import Api
 import pandas as pd
+import numpy as np
 
 def report_energy(request):
 
@@ -33,10 +34,11 @@ def report_dinning(request):
     table.all(sort=["date"])
     dataset = []
 
+    print(table)
 
-    for records in table.iterate(page_size=100, max_records=1000):
+    #for records in table.iterate(page_size=100, max_records=1000):
     #    dataset.append(records[2])
-        print(records)
+    #    print(records)
     
     return render(request, 'report_dinning.html', dataset)
 
