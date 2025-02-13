@@ -85,7 +85,9 @@ def report_dinning(request):
         'daily': number_format(d_b_d_sum),
         'd_a_d_sum': number_format(y_a_d_sum),
         'monthly': number_format(m_b_d_sum),
-        'yearly': number_format(y_b_d_sum),
+
+        'y_b_d_sum': number_format(y_b_d_sum),
+        'y_a_d_sum': number_format(y_a_d_sum),
     }
     
     return render(request, 'report_dinning.html', values)
