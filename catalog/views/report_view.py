@@ -44,6 +44,10 @@ def report_ev(request):
 
     return render(request, 'report_ev.html')
 
+def report_ev_tab(request):
+
+    return render(request, 'report_ev_tab.html')
+
 
 def report_dinning(request):
     urllib3.disable_warnings()
